@@ -172,9 +172,7 @@ struct page_gathering_widget : public ui::widget_flex {
                            *height / 2);
       }
 
-      void update(ui::update_context &ctx) override {
-        ui::widget::update(ctx);
-      }
+      void update(ui::update_context &ctx) override { ui::widget::update(ctx); }
     };
 
     emplace_child<loading_bar_widget>();
@@ -675,9 +673,11 @@ void ClientContext::init_webrtc_service() {
                 webrtc_service->audioBuffer_.erase(
                     webrtc_service->audioBuffer_.begin(),
                     webrtc_service->audioBuffer_.begin() + 960);
-                lock.unlock();
-                std::this_thread::sleep_for(std::chrono::milliseconds(8));
-                lock.lock();
+                if (webrtc_service->audioBuffer_.size() < 960) {
+                  lock.unlock();
+                  std::this_thread::sleep_for(std::chrono::milliseconds(8));
+                  lock.lock();
+                }
               } else {
                 std::this_thread::yield();
               }
