@@ -333,9 +333,6 @@ struct page_connected_widget : public ui::widget_flex {
           bars.push_back(anim_float());
           bars[i]->set_duration(800 + i * 100);
           bars[i]->set_easing(ui::easing_type::ease_in_out);
-          bars[i]->after_animate = [bar = bars[i]](float) {
-            bar->animate_to(0.2f + (rand() % 80) / 100.0f);
-          };
           bars[i]->animate_to(0.2f + (rand() % 80) / 100.0f);
         }
       }
