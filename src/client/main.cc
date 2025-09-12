@@ -684,6 +684,11 @@ void ClientContext::init_webrtc_service() {
                 webrtc_service->audioBuffer_.erase(
                     webrtc_service->audioBuffer_.begin(),
                     webrtc_service->audioBuffer_.begin() + 960);
+                lock.unlock();
+                std::this_thread::sleep_for(std::chrono::milliseconds(8));
+                lock.lock();
+              } else {
+                std::this_thread::yield();
               }
             } catch (const std::exception &e) {
               std::cerr << "Error submitting audio data: " << e.what()
