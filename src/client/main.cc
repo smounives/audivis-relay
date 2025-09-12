@@ -173,7 +173,6 @@ struct page_gathering_widget : public ui::widget_flex {
       }
 
       void update(ui::update_context &ctx) override {
-        needs_repaint = true; // Always repaint for animation
         ui::widget::update(ctx);
       }
     };
@@ -354,11 +353,6 @@ struct page_connected_widget : public ui::widget_flex {
           vg.fillColor(parse_color("#D0BCFF"));
           vg.fillRoundedRect(bar_x, bar_y, bar_width, bar_height, 2);
         }
-      }
-
-      void update(ui::update_context &ctx) override {
-        needs_repaint = true;
-        ui::widget::update(ctx);
       }
     };
 
