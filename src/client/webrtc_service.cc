@@ -9,7 +9,7 @@ namespace client {
 WebRTCService::WebRTCService(StatusCallback status_callback)
     : cli_("http://audivis-signaling-server.microblock.cc"),
       status_callback_(std::move(status_callback)) {
-  cli_.set_connection_timeout(0, 300000); // 5 minutes
+  cli_.set_connection_timeout(5 * 60); // 5 minutes
   setup_peer_connection();
   setup_data_channel();
   update_status(ConnectionState::Gathering);
