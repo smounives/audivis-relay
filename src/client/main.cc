@@ -671,8 +671,9 @@ void ClientContext::init_webrtc_service() {
   if (!audio_thread) {
     audio_thread.emplace([&]() {
       while (true) {
-        std::this_thread::yield();
         std::unique_lock<std::mutex> lock(webrtc_service->audioBufferMutex_);
+        webrtc_service->audioBufferCv_.wait(
+            lock, [&]() { return !webrtc_service->audioBuffer_.empty(); });
         while (webrtc_service->audioBuffer_.size() >= 960) {
           std::vector<uint8_t> buffer(webrtc_service->audioBuffer_.begin(),
                                       webrtc_service->audioBuffer_.begin() +

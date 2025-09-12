@@ -3,6 +3,7 @@
 
 #include "httplib.h"
 #include "rtc/configuration.hpp"
+#include <condition_variable>
 #include <deque>
 #include <functional>
 #include <memory>
@@ -39,6 +40,7 @@ struct WebRTCService {
     std::shared_ptr<rtc::PeerConnection> pc_;
     std::shared_ptr<rtc::DataChannel> dc_;
     std::deque<uint8_t> audioBuffer_;
+    std::condition_variable audioBufferCv_;
     std::mutex audioBufferMutex_;
     StatusCallback status_callback_;
     std::string session_id_;

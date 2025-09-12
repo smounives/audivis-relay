@@ -109,6 +109,7 @@ void WebRTCService::setup_data_channel() {
       }
       std::lock_guard<std::mutex> lock(audioBufferMutex_);
       audioBuffer_.insert(audioBuffer_.end(), data.begin(), data.end());
+      audioBufferCv_.notify_one();
     }
   });
 }
